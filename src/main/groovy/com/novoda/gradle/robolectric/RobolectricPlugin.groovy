@@ -54,7 +54,7 @@ class RobolectricPlugin implements Plugin<Project> {
 
         getAndroidPlugin(project).variantDataList.each {
             it.each {
-                println it.getVariantConfiguration().getJars().each {
+                it.getVariantConfiguration().getJars().each {
                     robolectric.compileClasspath += project.files(it.jarFile)
                     robolectric.runtimeClasspath += project.files(it.jarFile)
                 }
