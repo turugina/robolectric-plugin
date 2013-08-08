@@ -55,7 +55,7 @@ android {
 
 ```
 
-Originally, we no plugin, you could write along the lines of the following build.gradle
+Originally, with no plugin, you could write along the lines of the following build.gradle
 
 ```groovy
 import com.android.build.gradle.internal.tasks.BaseTask
