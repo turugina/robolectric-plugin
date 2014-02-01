@@ -11,6 +11,7 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.testing.Test
 
 import java.util.concurrent.Callable
+import java.util.regex.Pattern
 
 class RobolectricPlugin implements Plugin<Project> {
 
@@ -45,7 +46,7 @@ class RobolectricPlugin implements Plugin<Project> {
         SourceSet robolectric = pluginConvention.getSourceSets().findByName(ROBOLECTRIC_SOURCE_SET_NAME);
 
         ((BasePlugin) getAndroidPlugin(project)).mainSourceSet.java.srcDirs.each { dir ->
-            def buildDir = dir.getAbsolutePath().split(File.separator)
+            def buildDir = dir.getAbsolutePath().split(Pattern.quote(File.separator))
             buildDir = (buildDir[0..(buildDir.length - 4)] + ['build', 'classes', 'debug']).join(File.separator)
             robolectric.compileClasspath += project.files(buildDir)
             robolectric.runtimeClasspath += project.files(buildDir)
