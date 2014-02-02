@@ -45,12 +45,10 @@ class RobolectricPlugin implements Plugin<Project> {
     def configureAndroidDependency(Project project, JavaPluginConvention pluginConvention) {
         SourceSet robolectric = pluginConvention.getSourceSets().findByName(ROBOLECTRIC_SOURCE_SET_NAME);
 
-        ((BasePlugin) getAndroidPlugin(project)).mainSourceSet.java.srcDirs.each { dir ->
-            def buildDir = dir.getAbsolutePath().split(Pattern.quote(File.separator))
-            buildDir = (buildDir[0..(buildDir.length - 4)] + ['build', 'classes', 'debug']).join(File.separator)
-            robolectric.compileClasspath += project.files(buildDir)
-            robolectric.runtimeClasspath += project.files(buildDir)
-        }
+				def buildDir = project.buildDir.getAbsolutePath().split(Pattern.quote(File.separator))
+				buildDir = (buildDir[0..-1] + ['classes', 'debug']).join(File.separator)
+				robolectric.compileClasspath += project.files(buildDir)
+				robolectric.runtimeClasspath += project.files(buildDir)
 
         getAndroidPlugin(project).variantDataList.each {
             it.variantDependency.getJarDependencies().each {
@@ -105,7 +103,7 @@ class RobolectricPlugin implements Plugin<Project> {
     private void configureTest(final Project project, final JavaPluginConvention pluginConvention) {
         project.getTasks().withType(Test.class, new Action<Test>() {
             public void execute(final Test test) {
-                test.workingDir 'src/main'
+                test.workingDir project.buildDir
                 test.getConventionMapping().map("testClassesDir", new Callable<Object>() {
                     public Object call() throws Exception {
                         return pluginConvention.getSourceSets().getByName("robolectric").getOutput().getClassesDir();
