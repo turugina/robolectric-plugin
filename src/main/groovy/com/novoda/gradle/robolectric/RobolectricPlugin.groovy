@@ -130,7 +130,7 @@ class RobolectricPlugin implements Plugin<Project> {
         test.setGroup(JavaBasePlugin.VERIFICATION_GROUP);
 
         test.dependsOn(project.getTasks().findByName('robolectricClasses'))
-        test.dependsOn(project.getTasks().findByName('assemble'))
+        test.dependsOn(project.getTasks().findByName('assembleDebug'))
     }
 
     private BasePlugin getAndroidPlugin(Project project) {
